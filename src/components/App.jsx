@@ -16,6 +16,25 @@ class App extends Component {
     ],
     filter: '',
   };
+  componentDidMount() {
+    console.log('hello componentDidMount');
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (parsedContacts) {
+      console.log('hello 2componentDidMount', parsedContacts);
+      this.setState({ contacts: parsedContacts });
+    };
+
+  };
+  componentDidUpdate(prevProps, prevState) {
+    console.log('hello componentDidUpdate');
+
+    if (prevState.contacts !== this.state.contacts) {
+      console.log('hello componentDidUpdate', prevState.contacts);
+      console.log('hello componentDidUpdate', this.state.contacts);
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    };
+  };
 
   addContact = ({ name, number }) => {
     const { contacts } = this.state;
@@ -54,7 +73,7 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     const { filter } = this.state;
 
     const vizibleContacts = this.getVisibleContacts();
